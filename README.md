@@ -10,7 +10,7 @@ Please use an up to date browser. We suggest Chrome or Firefox. Safari doesn't s
 
 ## Install & Run
 
-1. Go open the file the file `web-demo.html` with an TextEditor and exchange `YOUR_PUBLISHABLE_API_KEY` in line 64 with your own API key 
+1. Go open the file the file `web-demo.html` with an TextEditor and exchange `YOUR_PUBLISHABLE_API_KEY` in line 69 with your own API key 
 2. Open the `web-demo.html` in a browser by double clicking on it.
 
 
