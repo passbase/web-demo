@@ -5,48 +5,8 @@
       type="text/javascript"
       src="https://unpkg.com/@passbase/button/button.js"
     ></script>
-
+    <link rel="stylesheet" href="index.css" />
     <title>Verify your Identity</title>
-
-    <style>
-      body {
-        background: #ffffff;
-        font-family: "Arial";
-      }
-
-      .container {
-        padding-top: 20vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .title {
-        font-size: 36px;
-        font-weight: 600;
-        color: #033156;
-        white-space: pre-line;
-        text-align: center;
-        line-height: 44px;
-      }
-
-      .subtitle {
-        margin-bottom: 20px;
-        margin-top: 13px;
-        opacity: 0.75;
-        font-size: 16px;
-        font-weight: 500;
-        color: #506b80;
-        white-space: pre-line;
-        text-align: center;
-      }
-
-      .passbase {
-        margin: 30px 40px;
-        height: 25px;
-      }
-    </style>
   </head>
 
   <body>
@@ -63,35 +23,52 @@
         button below
       </p>
 
-      <!-- This is the Authentication component -->
+      <!-- 1. This is the Passbase Component -->
       <div id="passbase-button"></div>
     </div>
 
     <script type="text/javascript">
-      Passbase.renderButton(
-        document.getElementById("passbase-button"),
-        (err, passport) => {},
-        "YOUR_PUBLISHABLE_API_KEY",
-        {
-          additionalAttributes: {
-            // Add your internal references here
-            // customer_user_id": "YOUR_INTERNAL_USER_ID",
-          },
+      // This is the logic for the passbase component
+      const element = document.getElementById("passbase-button");
+      const apiKey =
+        "YOUR_API_KEY";
+      const onFinished = (error, authKey, additionalAttributes) => {
+        //  Do what you want after the flow finished
+        if (error) {
+          console.log(error);
+        } else {
+          // Optional - Example to send auth key to your backend
+          // sendAuthKeyToBackend(authKey);
         }
-      );
+      };
 
-      /*
-      // This is the Reauthentication flow
-      const element = document.getElementById("passbase-button-login")
-      const apiKey = "YOUR_PUBLISHABLE_API_KEY"
-      const onFinished = (error, authKey, additionalAttributes) => {}
-    
-      Passbase.renderButton(element, onFinished, apiKey, 
-        {
-          integrationType: "login"
-        }
-      )
-      */
+      // Optional - Example to send auth key to your backend
+      const sendAuthKeyToBackend = (authKey) => {
+        const body = {
+          authKey: authKey,
+        };
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        };
+        fetch("YOUR_BACKEND_POST_ENDPOINT", requestOptions)
+          .then(() => {
+            console.log("Success");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+
+      // Example with a customer_user_id
+      Passbase.renderButton(element, onFinished, apiKey, {
+        additionalAttributes: {
+          customer_user_id: "SOME_USER_ID",
+        },
+      });
     </script>
   </body>
 </html>
