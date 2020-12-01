@@ -28,24 +28,27 @@
     </div>
 
     <script type="text/javascript">
-      // This is the logic for the passbase component
+      // This is the logic for the Passbase component
       const element = document.getElementById("passbase-button");
-      const apiKey =
-        "YOUR_API_KEY";
-      const onFinished = (error, authKey, additionalAttributes) => {
-        //  Do what you want after the flow finished
-        if (error) {
-          console.log(error);
-        } else {
-          // Optional - Example to send auth key to your backend
-          // sendAuthKeyToBackend(authKey);
-        }
-      };
+      // update the below variable with your own publishable API key**your, which you can find in the [API settings](https://app.passbase.com/settings/api) section.
+      const apiKey = "YOUR_PUBLISHABLE_API_KEY";
+      Passbase.renderButton(element, apiKey, {
+        // Speed up the verification flow by providing some information you might already have like the user's email to skip the email step
+        prefillAttributes: {
+          email: "user@email.de",
+        },
+        onFinish: (identityAccessKey) => {
+          // Do what you want after the flow finished
+          // sendAuthKeyToBackend(identityAccessKey)
+        },
+        onError: (errorCode) => {},
+        onStart: () => {},
+      });
 
-      // Optional - Example to send auth key to your backend
-      const sendAuthKeyToBackend = (authKey) => {
+      // Optional - Example to send identity access key to your backend
+      const sendAuthKeyToBackend = (identityAccessKey) => {
         const body = {
-          authKey: authKey,
+          identityAccessKey: identityAccessKey,
         };
         const requestOptions = {
           method: "POST",
@@ -62,13 +65,6 @@
             console.log(error);
           });
       };
-
-      // Example with a customer_user_id
-      Passbase.renderButton(element, onFinished, apiKey, {
-        additionalAttributes: {
-          customer_user_id: "SOME_USER_ID",
-        },
-      });
     </script>
   </body>
 </html>
